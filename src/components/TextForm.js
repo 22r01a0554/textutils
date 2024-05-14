@@ -1,0 +1,89 @@
+import React,{useState} from 'react'
+function TexthtmlForm(props) {
+  const handleUpClick=()=>{
+    // console.log("Uppercase was clicked");
+    let newText=text.toUpperCase();
+    setText(newText)
+    props.showAlert("Converted to uppercase!","success");
+    // setText("You have clicked on handleUpClick")
+  }
+  const handleOnChange=(event)=>{
+    // console.log("On Change");
+    setText(event.target.value)
+  }
+  const handleDownClick=()=>{
+    // console.log("Lowercase was clicked");
+    let newText=text.toLowerCase();
+    setText(newText)
+    props.showAlert("Converted to lowercase!","success");
+    // setText("You have clicked on handleDownClick")
+  }
+  const handleClearClick=()=>{
+    let newText='';
+    let UnicodeValue='';
+    let UnicodeCharacter='';
+    setText(newText);
+    setUnicodeValue(UnicodeValue);
+    setUnicodeCharacter(UnicodeCharacter);
+    props.showAlert("Text Cleared!","success");
+  }
+  const handleUnicode=()=>{
+    let n = prompt('Enter the number');
+    let UnicodeValue = text.charCodeAt(parseInt(n)); // Convert `n` to a number and get the Unicode character code // Convert the code to a string and update the state
+    setUnicodeValue(UnicodeValue);
+    let UnicodeCharacter = String.fromCharCode(UnicodeValue);
+    setUnicodeCharacter(UnicodeCharacter); 
+    alert(`Your UnicodeCharacter and its value is ${UnicodeCharacter}=${UnicodeValue}`)
+    props.showAlert("Converted to Unicode","success");
+  }
+  const handleCopy=()=>{
+    var text=document.getElementById("mybox");
+    text.select();
+    navigator.clipboard.writeText(text.value);
+    props.showAlert("Copied to clipboard!","success");
+  }
+  const handleExtraSpaces=()=>{
+    let newText=text.split(/[  ]+/);
+    setText(newText.join(" "))
+    props.showAlert("Extra Spaces Removed!","success");
+  }
+  const [text,setText]=useState('Enter text here');
+  const [UnicodeValue, setUnicodeValue] = useState('');
+  const [UnicodeCharacter, setUnicodeCharacter] = useState('');
+  // text="newText";//wrong way to change the state
+  // setText("new Text");//Corect way to change the state
+  return (
+    <>
+    <div className='container' style={{color:props.mode === 'mode' ? 'white' : 'black'}}>
+        <h1>{props.heading}</h1>
+    <div className="mb-3">
+    <textarea className="form-control" value={text} onChange={handleOnChange} style={{backgroundColor: props.mode === 'mode' ? 'gray' : 'white',
+    color: props.mode === 'mode' ? 'white' : 'black'
+}} id="mybox" rows="8"></textarea>
+
+    </div>
+    <button className="btn btn-primary mx-1" onClick={handleUpClick}>Convert to UpperCase</button>
+    <button className="btn btn-primary mx-1" onClick={handleDownClick}>Convert to LowerCase</button>
+    <button className="btn btn-primary mx-1" onClick={handleUnicode}>Unicode</button>
+    <button className="btn btn-primary mx-1" onClick={handleClearClick}>Clear</button>    
+    {/* <div className="d-flex justify-content-between">
+    <button className="btn btn-primary" onClick={handleUpClick}>Convert to UpperCase</button>
+    <button className="btn btn-primary" onClick={handleDownClick}>Convert to LowerCase</button>
+    </div> */}
+    <button className="btn btn-primary mx-1" onClick={handleCopy}>Copy Text</button>  
+    <button className="btn btn-primary mx-1" onClick={handleExtraSpaces}>Remove Extra Spaces</button>
+    </div>
+    <div className="container my-3" style={{color:props.mode === 'mode' ? 'white' : 'black'}}>
+      <h2>Your text summary</h2>
+      <p>{text.split(" ").length} words and {text.length} characters</p>
+      <p>{0.008*text.split(" ").length} minutes needed</p>
+      <h2>Preview</h2>
+      <p>{text.length>0?text:"Enter something in the above textbox to preview it here"}</p>
+      <h2>Unicode</h2>
+      <p>UnicodeCharcacter:{UnicodeCharacter} Value:{UnicodeValue}</p>
+    </div>
+    </>
+  )
+}
+
+export default TexthtmlForm

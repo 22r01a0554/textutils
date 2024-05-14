@@ -1,0 +1,76 @@
+import './App.css';
+import React, {useState } from 'react'
+// import About from './components/About';
+import Navbar from './components/Navbar';
+import TextForm from './components/TextForm';
+import Alert from './components/Alert';
+function App() {
+  const [mode, setMode] = useState(`light`);
+  const [typemode, setTypeMode] = useState(`mode`)
+  const [mode1, setMode1] = useState(`light`);
+  const [mode2, setMode2] = useState(`light`);
+  const[alert,setAlert]=useState(null);
+  const showAlert=(message,type)=>{
+    setAlert({
+      msg:message,
+      type:type 
+    })
+    setTimeout(() => {
+      setAlert(null);
+    }, 1500);
+  }
+  const toggleMode=()=>{
+    if(mode==='light'){
+      setMode('dark');
+      setTypeMode('mode');
+      document.body.style.backgroundColor='gray';
+      showAlert("Dark mode has been enabled","success")
+    }
+    else{
+      setMode('light');
+      setTypeMode('light');
+      document.body.style.backgroundColor='white';
+      showAlert("Light mode has been enabled","success")
+    }
+  }
+  const toggleMode1 = () => {
+    if (mode1 === 'light') {
+        setMode1('green');
+        setTypeMode('mode1'); // Set typemode to 'mode1'
+        document.body.style.backgroundColor = '#c735dc';
+        showAlert("Green mode has been enabled", "success");
+    } else {
+        setMode1('light');
+        setTypeMode('light'); // Set typemode back to 'light'
+        document.body.style.backgroundColor = 'white';
+        showAlert("Light mode has been enabled", "success");
+    }
+}
+
+const toggleMode2 = () => {
+    if (mode2 === 'light') {
+        setMode2('blue');
+        setTypeMode('mode2'); // Set typemode to 'mode2'
+        document.body.style.backgroundColor = '#28d7ddf0';
+        showAlert("Blue mode has been enabled", "success");
+    } else {
+        setMode2('light');
+        setTypeMode('light'); // Set typemode back to 'light'
+        document.body.style.backgroundColor = 'white';
+        showAlert("Light mode has been enabled", "success");
+    }
+}
+
+  return (
+    <>
+    <Navbar title="Text Utils" aboutText="About" mode={typemode} toggleMode={toggleMode} toggleMode1={toggleMode1}toggleMode2={toggleMode2}/>
+    <Alert alert={alert}/>
+    <div className="container my-3">
+    <TextForm showAlert={showAlert} heading="Enter the text to analyse" mode={typemode}/>
+    {/* <About/> */}
+    </div> 
+    </>
+  );
+}
+
+export default App;
